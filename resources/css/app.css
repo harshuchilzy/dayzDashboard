@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input:checked~.dot {
+    transform: translateX(120%);
+    background-color: #48bb78;
+}
+
+input:checked+.block {
+    background-color: #64759e !important;
+
+}
