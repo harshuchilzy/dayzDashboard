@@ -34,8 +34,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('users', App\Http\Controllers\Users\UserController::class);
-    Route::any('users/list/paginate', [App\Http\Controllers\Users\UserController::class, 'paginate'])->name('users.paginate');
-
+    
     Route::resource('users/permissions', App\Http\Controllers\Users\PermissionController::class);
     Route::post('users/roles/store', [App\Http\Controllers\Users\PermissionController::class, 'store_role'])->name('role.store');
     Route::get('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'get_role'])->name('role.get');

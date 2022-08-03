@@ -16,22 +16,19 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Users/Index');
-    }
-
-    public function paginate(Request $request)
-    {
-        $search = $request->input('q');
-        $per_page = $request->input('per_page');
-        if($search){
-            $users = User::where('name', 'like', '%'.$search.'%')->orWhere('code', 'like', '%'.$search.'%')->paginate($per_page ? $per_page : 15);
-        }else{
-            $users = User::paginate($per_page ? $per_page : 15);
+        if($request->get('page')){
+            $search = $request->input('q');
+            $per_page = $request->input('per_page');
+            if($search){
+                $users = User::where('name', 'like', '%'.$search.'%')->orWhere('code', 'like', '%'.$search.'%')->paginate($per_page ? $per_page : 15);
+            }else{
+                $users = User::paginate($per_page ? $per_page : 15);
+            }
+            return $users;
         }
-        // return 'OK';
-        return response()->json($users);
+        return Inertia::render('Users/Index');
     }
 
     /**

@@ -16,7 +16,7 @@ const columns = [
 ];
 paginate_users(1);
 async function paginate_users(page = 1, per_page = 15, search_query = null) {
-    await axios.get(route('users.paginate', { page: page, per_page: per_page, q: search_query })).then(({ data }) => {
+    await axios.get(route('users.index', { page: page, per_page: per_page, q: search_query })).then(({ data }) => {
         users.value = data['data'];
         pagination.value = {
             path: data['path'],
