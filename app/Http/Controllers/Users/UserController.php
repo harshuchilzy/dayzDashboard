@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -55,7 +57,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->all();
-        print_r($inputs);
+
+        $user = User::firstOrNew([
+            'name' => $inputs['name'],
+            'email' => $inputs['email'],
+            'password' => Hash::make($inputs['password'])
+        ]);
+        
+        if($inputs['role']){
+            $role = Role::findOrCreate('admin', 'web');
+            $user->assignRole($role);
+        }
+
+        if(!$user->wasRecentlyCreated){
+            return redirect()->route('users.index'); 
+        }
+        
+        return redirect()->route('users.index'); 
     }
 
     /**

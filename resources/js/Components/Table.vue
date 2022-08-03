@@ -170,7 +170,7 @@ import { Link } from "@inertiajs/inertia-vue3";
 export default {
   props: ["data", "pagination", "columns", "search", "create"],
   components: {
-    Link
+    Link,
   },
   setup(props, context) {
     function lodashGet(array, key) {
