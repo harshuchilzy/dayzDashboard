@@ -74,7 +74,7 @@ const submit = () => {
 
                     <div class="flex items-center justify-end mt-4">
                         <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Register
+                            Update
                         </JetButton>
                     </div>
                 </form>

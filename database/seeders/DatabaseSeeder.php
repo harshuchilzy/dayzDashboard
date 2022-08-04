@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,19 +18,32 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        Permission::create(['name' => 'edit users']);
+        Permission::create(['name' => 'manage calls']);
+        Permission::create(['name' => 'manage sms']);
+
+        $admin = Role::create(['name' => 'admin']);
+        $admin->givePermissionTo('edit users');
+        $admin->givePermissionTo('manage calls');
+        $admin->givePermissionTo('manage sms');
+        
+        $agent = Role::create(['name' => 'agent']);
+        $agent->givePermissionTo('manage calls');
+        $agent->givePermissionTo('manage sms');
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('test123')
+            'name' => 'Harshana Nishshanka',
+            'email' => 'harshana@dayzsolutions.com',
+            'password' => Hash::make('elakiri123')
         ]);
+        $user->assignRole($admin);
 
-        $role = Role::findOrCreate('admin', 'web');
-        $permission = Permission::create(['name' => 'edit users']);
-
-        $role->givePermissionTo('edit users');
-
-        $user->assignRole('admin');
+        $agentUser = \App\Models\User::factory()->create([
+            'name' => 'Agent User',
+            'email' => 'agent@dayzsolutions.com',
+            'password' => Hash::make('elakiri123')
+        ]);
+        $agentUser->assignRole($agent);
     }
 }

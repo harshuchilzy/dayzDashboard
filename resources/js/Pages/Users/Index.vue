@@ -4,6 +4,7 @@ import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Table from '../../Components/Table.vue'
 import { ref } from "@vue/reactivity";
+import PopupDialog from "../../Components/PopupDialog.vue";
 
 const users = ref({});
 const pagination = ref({});
@@ -35,7 +36,7 @@ async function paginate_users(page = 1, per_page = 15, search_query = null) {
 let showDialog = ref(false);
 function deleteUser(id){
     console.log(id);
-    showDialog.value = true
+    // showDialog.value = true
 }
 </script>
 <template>
@@ -59,7 +60,8 @@ function deleteUser(id){
                 </template>
                 
                 <template #cell-action="{ row }">
-                    <div>
+                    <div class="flex gap-2">
+                        <Link :href="route('users.edit', row.id)">Edit</Link>
                         <button @click="deleteUser(row.id)">Delete</button>
                     </div>
                 </template>

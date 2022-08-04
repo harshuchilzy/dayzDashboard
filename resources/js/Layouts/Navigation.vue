@@ -25,11 +25,11 @@ import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue';
                 </div>
 
                 <JetDropdownLink :href="route('users.index')">
-                    Users
+                    All Users
                 </JetDropdownLink>
 
                 <JetDropdownLink :href="route('users.create')">
-                    Add user
+                    New user
                 </JetDropdownLink>
 
                 <JetDropdownLink :href="route('permissions.create')">

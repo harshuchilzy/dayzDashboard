@@ -13,6 +13,10 @@ use Throwable;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin','permission:edit users']);
+    }
     /**
      * Display a listing of the resource.
      *

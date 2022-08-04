@@ -42,7 +42,7 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->all();
-        $permission = Permission::findOrCreate($inputs['permission_title']);
+        $permission = Permission::findOrCreate($inputs['permission_title'], config('jetstream.guard'));
 
         $message = 'Permission saved successfully!';
         if(!$permission->wasRecentlyCreated){
@@ -54,7 +54,7 @@ class PermissionController extends Controller
     public function store_role(Request $request)
     {
         $inputs = $request->all();
-        $role = Role::findOrCreate($inputs['role_title']);
+        $role = Role::findOrCreate($inputs['role_title'], config('jetstream.guard'));
 
         if(isset($inputs['role_permissions']) and !empty($inputs['role_permissions']) and is_array($inputs['role_permissions'])){
             $role->syncPermissions($inputs['role_permissions']);
@@ -68,7 +68,7 @@ class PermissionController extends Controller
 
     public function get_role($id)
     {
-        $role = Role::findById($id);
+        $role = Role::find($id);
         $role['permissions'] = $role->permissions->pluck('id');
         return response()->json($role);
     }
