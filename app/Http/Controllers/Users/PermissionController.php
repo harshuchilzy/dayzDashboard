@@ -48,22 +48,18 @@ class PermissionController extends Controller
         if(!$permission->wasRecentlyCreated){
             $message = 'Permission already exist.';
         }
-        return redirect(route('permissions.create'))->with('message', $message);
+        return redirect()->route('users.index')->with('success', $message);
     }
     
     public function store_role(Request $request)
     {
         $inputs = $request->all();
-        $role = Role::findOrCreate($inputs['role_title'], config('jetstream.guard'));
-
+        
+        $role = Role::findByParam(['name' =>$inputs['role_title']]);
         if(isset($inputs['role_permissions']) and !empty($inputs['role_permissions']) and is_array($inputs['role_permissions'])){
             $role->syncPermissions($inputs['role_permissions']);
         }
-        $message = 'Role saved successfully!';
-        if(!$role->wasRecentlyCreated){
-            $message = 'Role already exist.';
-        }
-        return redirect(route('permissions.create'))->with('message', $message);
+        return redirect()->route('users.index')->with('success', 'Role saved successfully!');
     }
 
     public function get_role($id)
@@ -78,7 +74,7 @@ class PermissionController extends Controller
         $permissions = $role->permissions;
         $role->revokePermissionTo($permissions);
         $role->delete();
-        return redirect(route('permissions.create'))->with('message', 'Role destroyed!');
+        return redirect()->route('users.index')->with('message', 'Role destroyed!');
     }
     /**
      * Display the specified resource.
