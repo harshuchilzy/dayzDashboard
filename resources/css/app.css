@@ -9,5 +9,23 @@ input:checked~.dot {
 
 input:checked+.block {
     background-color: #64759e !important;
-
 }
+
+/* Custom Colors for Toastr */
+.Vue-Toastification__toast--info {
+    background-color: #609dcf !important;
+    color: #fff;
+  }
+  .Vue-Toastification__toast--success {
+    background-color: #23bda4 !important;
+    color: #fff;
+  }
+  .Vue-Toastification__toast--error {
+    background-color: #c0537f !important;
+    color: #fff;
+  }
+  .Vue-Toastification__toast--warning {
+    background-color: #ffdb87 !important;
+    color: #000;
+  }
+/* End custom colors for Toastr */

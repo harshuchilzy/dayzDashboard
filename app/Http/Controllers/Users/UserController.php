@@ -58,22 +58,23 @@ class UserController extends Controller
     {
         $inputs = $request->all();
 
-        $user = User::firstOrNew([
+        $user = User::firstOrCreate(['email' => $inputs['email']],[
             'name' => $inputs['name'],
             'email' => $inputs['email'],
             'password' => Hash::make($inputs['password'])
         ]);
         
-        if($inputs['role']){
-            $role = Role::findOrCreate('admin', 'web');
-            $user->assignRole($role);
+        if($user->wasRecentlyCreated){
+            if($inputs['role']){
+                $role = Role::findOrCreate($inputs['role'], 'web');
+                $user->assignRole($role);
+            }
+            return redirect()->route('users.index')->with('success', 'User stored succefully.'); 
         }
 
-        if(!$user->wasRecentlyCreated){
-            return redirect()->route('users.index'); 
-        }
+        return redirect()->route('users.index')->with('error', 'User already exist!');
+
         
-        return redirect()->route('users.index'); 
     }
 
     /**
@@ -95,7 +96,22 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        if(empty($user)){
+            return redirect()->route('users.index')->with('error', __('Can not find the user!'));
+        }
+        $roles = Role::all();
+        $user_roles = $user->getRoleNames();
+        $userRoles = array();
+        foreach($roles as $role){
+            $userRoles[$role->id]['id'] = $role->id;
+            $userRoles[$role->id]['name'] = $role->name;
+            if(in_array($role->name, $user_roles->toArray())){
+                $userRoles[$role->id]['selected'] = true;
+            }
+        }
+
+        return inertia()->render('Users/Edit', ['user' => $user, 'roles' => $userRoles]);
     }
 
     /**
@@ -107,7 +123,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $inputs = $request->all();
+        $user = User::find($id);
+        if(empty($user)){
+            return redirect()->route('users.index')->with('error', __('Can not find the user!'));
+        }
+        $user->update($inputs);
+
+        if($inputs['role']){
+            $role = Role::findOrCreate($inputs['role'], 'web');
+            $user->assignRole($role);
+        }
+        return redirect()->route('users.index')->with('success', 'User updated succefully.'); 
     }
 
     /**
