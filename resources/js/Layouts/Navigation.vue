@@ -32,7 +32,7 @@ import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue';
                     New user
                 </JetDropdownLink>
 
-                <JetDropdownLink :href="route('permissions.create')">
+                <JetDropdownLink :href="route('roles.create')">
                     Roles
                 </JetDropdownLink>
             </template>

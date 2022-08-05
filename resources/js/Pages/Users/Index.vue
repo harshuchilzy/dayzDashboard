@@ -19,6 +19,8 @@ const columns = [
     { key: "id", title: "#" },
     { key: "name", title: "Name" },
     { key: "email", title: "Email" },
+    { key: "roles", title: "Roles" },
+
     { key: "action", title: "" },
 ];
 paginate_users(1);
@@ -75,7 +77,11 @@ function _cancel(){
                 <template #cell-email="{ row }">
                     {{ row.email }}
                 </template>
-
+                <template #cell-roles="{ row }">
+                    <div v-for="role in row.roles" :key="role.id" :class="role.name == 'admin' ? 'bg-blue-400' : 'bg-slate-400'" class="px-2 inline-block mr-1 text-white rounded">
+                        <Link :href="route('permissions.create')">{{role.name}}</Link>
+                    </div>
+                </template>
                 <template #cell-action="{ row }">
                     <div class="flex gap-2">
                         <Link :href="route('users.edit', row.id)">Edit</Link>

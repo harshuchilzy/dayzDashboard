@@ -36,8 +36,10 @@ Route::middleware([
     Route::resource('users', App\Http\Controllers\Users\UserController::class);
     
     Route::resource('users/permissions', App\Http\Controllers\Users\PermissionController::class);
-    Route::post('users/roles/store', [App\Http\Controllers\Users\PermissionController::class, 'store_role'])->name('role.store');
-    Route::get('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'get_role'])->name('role.get');
-    Route::delete('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'delete_role'])->name('role.destroy');
+    Route::resource('users/roles', App\Http\Controllers\Users\RoleController::class);
+
+    // Route::post('users/roles/store', [App\Http\Controllers\Users\PermissionController::class, 'store_role'])->name('role.store');
+    // Route::get('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'get_role'])->name('role.get');
+    // Route::delete('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'delete_role'])->name('role.destroy');
 
 });

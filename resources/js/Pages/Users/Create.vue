@@ -59,11 +59,11 @@ const submit = () => {
 
                                 <div class="mt-6" v-if="roles">
                                     <h1 class="text-xl mb-2">Role</h1>
-                                    <div v-for="role in roles" :key="role.id" class="mb-2">
+                                    <div v-for="(role, id) in roles" :key="id" class="mb-2">
                                         <div class="form-check">
-                                            <input class="form-check-input form-checkbox h-6 w-6 appearance-none rounded-full border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" v-model="form.role" :value="role.name" :id="'role_' + role.id">
-                                            <label class="form-check-label inline-block text-gray-800" :for="'role_' + role.id">
-                                                {{ role.name }}
+                                            <input class="form-check-input form-checkbox h-6 w-6 appearance-none rounded-full border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" v-model="form.role" :value="role" :id="'role_' + id">
+                                            <label class="form-check-label inline-block text-gray-800" :for="'role_' + id">
+                                                {{ role }}
                                             </label>
                                         </div>
                                     </div>

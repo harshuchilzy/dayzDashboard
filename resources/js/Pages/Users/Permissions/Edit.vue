@@ -8,15 +8,18 @@ import JetLabel from "@/Jetstream/Label.vue";
 import { ref } from "@vue/reactivity";
 import axios from "axios";
 import Sidebar from "./RolesSidebar.vue"
+
 const props = defineProps({
     permissions: Object,
-    roles: Object
+    roles: Object,
+    role: Object
 });
+// var role = ref(props.role)
 
 var form = useForm({
-    role_title: "",
+    role_title: props.role.name,
     permission_title: "",
-    role_permissions: []
+    role_permissions: props.role.permissions
 });
 
 function addPermission() {
@@ -29,22 +32,14 @@ function showPermissionCreate() {
     showPermissionForm.value = true;
 }
 
-var role = ref();
-
-function addRole(){
-    form.role_title = '';
-    form.role_permissions = [];
-    role.value = false
-}
-
 const submit = () => {
-    form.post(route("roles.store"), {
+    form.patch(route("roles.update", props.role.id), {
         onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 
 function deleteRole(){
-    Inertia.delete(route('roles.destroy', role.value.data.id));
+    Inertia.delete(route('roles.destroy', props.role.id));
 }
 </script>
 
@@ -61,25 +56,7 @@ function deleteRole(){
                 <form @submit.prevent="submit">
                     <div class="md:grid md:grid-cols-3 md:gap-6">
                         <Sidebar :roles="roles" :role="role"/>
-                        <!-- <div class="md:col-span-1">
-                            <h3 class="text-lg font-medium text-gray-900">
-                                Edit Roles
-                            </h3>
 
-                            <div class="mt-5">
-                                <div v-for="role in roles" :key="role.id" class="mb-2">
-                                    <Link class="text-left border border-gray-300 text-sm py-1 px-3 rounded-md bg-white shadow" :href="route('roles.edit', role.id)">{{ role.name }}</Link>
-                                </div>
-                                <div class="mb-2" v-if="role">
-                                    <button class="text-left border border-gray-300 text-sm py-1 px-3 rounded-md bg-white shadow" type="button" @click="addRole()">
-                                        Add new role
-                                    </button>
-                                </div>
-                                <div class="mb-2" v-else-if="!roles">
-                                    No roles available yet.
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="mt-5 md:mt-0 md:col-span-2">
 
                             <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md">

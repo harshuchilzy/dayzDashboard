@@ -28,13 +28,14 @@ class UserController extends Controller
             $search = $request->input('q');
             $per_page = $request->input('per_page');
             if($search){
-                $users = User::where('name', 'like', '%'.$search.'%')->orWhere('code', 'like', '%'.$search.'%')->paginate($per_page ? $per_page : 15);
+                $users = User::where('name', 'like', '%'.$search.'%')->orWhere('code', 'like', '%'.$search.'%')->with('roles')->paginate($per_page ? $per_page : 15);
             }else{
-                $users = User::paginate($per_page ? $per_page : 15);
+                $users = User::with('roles')->paginate($per_page ? $per_page : 15);
             }
             return $users;
         }
-        return Inertia::render('Users/Index');
+        $users = User::with('roles')->get();
+        return Inertia::render('Users/Index', [ 'users' => $users]);
     }
 
     /**
@@ -44,7 +45,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::pluck('name', 'id');
         $permissions = Permission::getPermissions();
         return Inertia::render('Users/Create', [
             'roles' => $roles,
