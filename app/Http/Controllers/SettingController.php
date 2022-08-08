@@ -3,16 +3,57 @@
 namespace App\Http\Controllers;
 
 use DateTimeZone;
+use GeneralSettings;
 use Illuminate\Http\Request;
+use ProviderSettings;
 
 class SettingController extends Controller
 {
-    public function settingsPage()
+    private $generalSettings;
+
+    public function __construct(GeneralSettings $generalSettings, ProviderSettings $providerSettings)
     {
+        $this->settings = $generalSettings;
+        $this->providerSettings = $providerSettings;
+    }
+
+    public function settingsPage(Request $request)
+    {
+        $providers = $request->input('providers');
+        if($providers){
+            $settings = $this->providerSettings;
+            return inertia()->render('Settings/ProviderSettings', [
+                'settings' => $settings
+            ]);
+        }
+
         $timezones = $this->available_timezones();
-        return inertia()->render('Settings/Settings', [
+        return inertia()->render('Settings/GeneralSettings', [
             'timezones' => $timezones
         ]);
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $inputs = $request->all();
+
+        if($inputs['settingType'] == 'providers'){
+            foreach($inputs as $key => $input){
+                if(!empty($input)){
+                    $this->providerSettings->{$key} = $input;
+                }
+            }
+            $this->providerSettings->save();
+        }
+        elseif($inputs['settingType'] == 'general'){
+            foreach($inputs as $key => $input){
+                if(!empty($input)){
+                    $this->settings->{$key} = $input;
+                }
+            }
+            $this->settings->save();
+        }
+        return redirect()->route('settings')->with('success', 'Settings updated successfully.');
     }
 
     function available_timezones() {

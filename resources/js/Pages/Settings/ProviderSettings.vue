@@ -6,12 +6,11 @@ import { Inertia } from '@inertiajs/inertia';
 import route from '../../../../vendor/tightenco/ziggy/src/js';
 
 const props = defineProps({
-    timezones: Array
+    settings: Array
 })
 
 let form = ref({
-    timezone: 'Europe/Amsterdam',
-    provider_type: 'signalwire',
+    settingType: 'providers',
     accountSid: '',
     accountToken: '',
     serviceSID: '',
@@ -38,29 +37,11 @@ function submit(){
 
                         <form @submit.prevent="submit">
                             <div>
-                                <!-- General Settings -->
-                                <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                                    General Settings
-                                </h6>
-
-                                <div class="relative w-full mb-3 flex items-center gap-5">
-                                    <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
-                                        Timezone
-                                    </label>
-                                    <dropdown text="Timezones" placement="bottom" v-model="form.timezone">
-                                        <list-group>
-                                            <list-group-item v-for="(timezone, i) in timezones" :key="i">{{ timezone.timezone }}</list-group-item>
-                                        </list-group>
-                                    </dropdown>
-                                </div>
-                                <div class="border-b-2 border-slate-200 my-6"></div>
-                                <!-- End - General Settings -->
-
                                 <!-- Providers -->
                                 <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                     Provider Settings
                                 </h6>
-                                <div class="relative w-full mb-5 flex items-center gap-5">
+                                <!-- <div class="relative w-full mb-5 flex items-center gap-5">
                                     <span class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                         Provider
                                     </span>
@@ -77,65 +58,71 @@ function submit(){
                                         </label>
                                     </div>
 
-                                </div>
+                                </div> -->
 
-                                <div v-show="form.provider_type == 'twilio'">
+                                <div>
+                                    <h6 class="text-blueGray-400 text-lg mb-6 font-bold uppercase">
+                                        Twilio
+                                    </h6>
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             Account SID
                                         </label>
-                                        <input type="text" v-model="form.accountSid" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="text" v-model="form.accountSid" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
 
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             Account Token
                                         </label>
-                                        <input type="password" v-model="form.accountToken" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="password" v-model="form.accountToken" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
 
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             Service SID
                                         </label>
-                                        <input type="text" v-model="form.serviceSID" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="text" v-model="form.serviceSID" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
 
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             API Key
                                         </label>
-                                        <input type="text" v-model="form.account_apiKey" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="text" v-model="form.account_apiKey" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
 
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             API Secret
                                         </label>
-                                        <input type="password" v-model="form.account_apiSecret" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="password" v-model="form.account_apiSecret" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
                                 </div>
 
-                                <div v-show="form.provider_type == 'signalwire'">
+                                <div class="mt-14 block">
+                                    <h6 class="text-blueGray-400 text-lg mb-6 font-bold uppercase">
+                                        Signalwire
+                                    </h6>
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             Space URL
                                         </label>
-                                        <input type="url" v-model="form.spaceUrl" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="url" v-model="form.spaceUrl" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
 
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             Project ID
                                         </label>
-                                        <input type="text" v-model="form.projectId" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="text" v-model="form.projectId" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
 
                                     <div class="relative w-full mb-5 flex items-center gap-5">
                                         <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
                                             Project Token
                                         </label>
-                                        <input type="password" v-model="form.projectToken" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                        <input type="password" v-model="form.projectToken" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
                                     </div>
                                 </div>
                                 <!-- End - Providers -->
