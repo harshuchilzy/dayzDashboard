@@ -42,5 +42,5 @@ Route::middleware([
     Route::get('/dialer', [App\Http\Controllers\Calls\CallController::class, 'dialer'])->name('dialer');
 
     Route::get('settings', [App\Http\Controllers\SettingController::class, 'settingsPage'])->name('settings');
-
+    Route::post('settings', [App\Http\Controllers\SettingController::class, 'updateSettings'])->name('settings.update');
 });
