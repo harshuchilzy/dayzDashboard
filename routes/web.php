@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SettingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,8 +39,8 @@ Route::middleware([
     Route::resource('users/permissions', App\Http\Controllers\Users\PermissionController::class);
     Route::resource('users/roles', App\Http\Controllers\Users\RoleController::class);
 
-    // Route::post('users/roles/store', [App\Http\Controllers\Users\PermissionController::class, 'store_role'])->name('role.store');
-    // Route::get('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'get_role'])->name('role.get');
-    // Route::delete('users/roles/{id}', [App\Http\Controllers\Users\PermissionController::class, 'delete_role'])->name('role.destroy');
+    Route::get('/dialer', [App\Http\Controllers\Calls\CallController::class, 'dialer'])->name('dialer');
+
+    Route::get('settings', [App\Http\Controllers\SettingController::class, 'settingsPage'])->name('settings');
 
 });
