@@ -5,11 +5,13 @@ import { ref } from '@vue/reactivity';
 import { Inertia } from '@inertiajs/inertia';
 import route from '../../../../vendor/tightenco/ziggy/src/js';
 const props = defineProps({
-    timezones: Array
+    timezones: Array,
+    settings: Array
 })
-let form = ref({
+const form = ref({
     settingType: 'general',
     timezone: 'Europe/Amsterdam',
+    fallback_number : props.settings.fallback_number
 });
 function submit(){
     Inertia.post(route('settings.update'), form.value);
@@ -32,6 +34,13 @@ function submit(){
                                 <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                     General Settings
                                 </h6>
+
+                                <div class="relative w-full mb-5 flex items-center gap-5">
+                                    <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
+                                        Fallback Phone number
+                                    </label>
+                                    <input type="text" v-model="form.fallback_number" class="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150" />
+                                </div>
 
                                 <div class="relative w-full mb-3 flex items-center gap-5">
                                     <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">

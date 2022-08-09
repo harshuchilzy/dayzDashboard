@@ -28,8 +28,10 @@ class SettingController extends Controller
         }
 
         $timezones = $this->available_timezones();
+        $settings = $this->settings;
         return inertia()->render('Settings/GeneralSettings', [
-            'timezones' => $timezones
+            'timezones' => $timezones,
+            'settings' => $settings
         ]);
     }
 

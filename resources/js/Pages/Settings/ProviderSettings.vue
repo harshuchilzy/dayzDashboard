@@ -9,14 +9,14 @@ const props = defineProps({
 })
 let form = ref({
     settingType: 'providers',
-    accountSid: '',
-    accountToken: '',
-    serviceSID: '',
-    account_apiKey: '',
-    account_apiSecret: '',
-    spaceUrl: '',
-    projectId: '',
-    projectToken: ''
+    accountSid: props.settings.accountSid,
+    accountToken: props.settings.accountToken,
+    serviceSID: props.settings.serviceSID,
+    account_apiKey: props.settings.account_apiKey,
+    account_apiSecret: props.settings.account_apiSecret,
+    spaceUrl: props.settings.spaceUrl,
+    projectId: props.settings.projectId,
+    projectToken: props.settings.projectToken
 });
 function submit(){
     Inertia.post(route('settings.update'), form.value);
@@ -39,21 +39,6 @@ function submit(){
                                 <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                     Provider Settings
                                 </h6>
-                                <!-- <div class="relative w-full mb-5 flex items-center gap-5">
-                                    <span class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
-                                        Provider
-                                    </span>
-                                    <div class="grid grid-cols-1">
-                                        <label for="twilio" class="uppercase text-blueGray-600 text-xs font-bold w-full mb-3">
-                                            <input id="twilio" type="radio" v-model="form.provider_type" value="twilio" name="provider" class=" indeterminate:bg-gray-300 mr-3" />
-                                            Twilio
-                                        </label>
-                                        <label for="signalwire" class="uppercase text-blueGray-600 text-xs font-bold w-full">
-                                            <input id="signalwire" type="radio" v-model="form.provider_type" value="signalwire" name="provider" class=" indeterminate:bg-gray-300 mr-3" />
-                                            Signalwire
-                                        </label>
-                                    </div>
-                                </div> -->
 
                                 <div>
                                     <h6 class="text-blueGray-400 text-lg mb-6 font-bold uppercase">
