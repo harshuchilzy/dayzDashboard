@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
@@ -66,13 +68,15 @@ class UserController extends Controller
         $user = User::firstOrCreate(['email' => $inputs['email']],[
             'name' => $inputs['name'],
             'email' => $inputs['email'],
-            'password' => Hash::make($inputs['password'])
+            'password' => Hash::make($inputs['password']),
+            'email_verified_at' => now()
         ]);
         
         if($user->wasRecentlyCreated){
             if($inputs['role']){
                 $role = Role::findOrCreate($inputs['role'], 'web');
                 $user->assignRole($role);
+                
             }
             return redirect()->route('users.index')->with('success', 'User stored succefully.'); 
         }
