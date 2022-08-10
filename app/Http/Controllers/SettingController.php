@@ -6,6 +6,7 @@ use DateTimeZone;
 use GeneralSettings;
 use Illuminate\Http\Request;
 use ProviderSettings;
+use Spatie\Permission\Models\Role;
 
 class SettingController extends Controller
 {
@@ -29,9 +30,11 @@ class SettingController extends Controller
 
         $timezones = $this->available_timezones();
         $settings = $this->settings;
+        $roles = Role::pluck('name', 'id');
         return inertia()->render('Settings/GeneralSettings', [
             'timezones' => $timezones,
-            'settings' => $settings
+            'settings' => $settings,
+            'roles' => $roles
         ]);
     }
 

@@ -6,12 +6,14 @@ import { Inertia } from '@inertiajs/inertia';
 import route from '../../../../vendor/tightenco/ziggy/src/js';
 const props = defineProps({
     timezones: Array,
-    settings: Array
+    settings: Array,
+    roles: Object
 })
 const form = ref({
     settingType: 'general',
     timezone: 'Europe/Amsterdam',
-    fallback_number : props.settings.fallback_number
+    fallback_number : props.settings.fallback_number,
+    default_role: props.settings.default_role
 });
 function submit(){
     Inertia.post(route('settings.update'), form.value);
@@ -34,6 +36,15 @@ function submit(){
                                 <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                     General Settings
                                 </h6>
+
+                                 <div class="relative w-full mb-5 flex items-center gap-5">
+                                    <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
+                                        Default Role
+                                    </label>
+                                    <select v-model="form.default_role" class="border-0 capitalize px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150">
+                                        <option v-for="role in roles" :key="role.id">{{role}}</option>
+                                    </select>
+                                </div>
 
                                 <div class="relative w-full mb-5 flex items-center gap-5">
                                     <label class="block uppercase text-blueGray-600 text-xs font-bold w-3/12">
