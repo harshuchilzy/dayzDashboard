@@ -44,3 +44,7 @@ Route::middleware([
     Route::get('settings', [App\Http\Controllers\SettingController::class, 'settingsPage'])->name('settings');
     Route::post('settings', [App\Http\Controllers\SettingController::class, 'updateSettings'])->name('settings.update');
 });
+
+Route::get('create-campaign', function(){
+    return inertia()->render('Campaign/Create');
+});
